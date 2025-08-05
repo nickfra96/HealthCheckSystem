@@ -3,7 +3,6 @@ package Controller;
 
 import Entity.LogSourcePath;
 import Service.LogSourcePathImp;
-import Service.LogSourcePathInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
