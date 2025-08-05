@@ -13,7 +13,7 @@ public interface CheckHistoryInterface {
     CheckHistory getLatestByEndpoint(Integer endpointId);
     List<CheckHistory> listGlobal(Instant from, Instant to);
     List<CheckHistory> listGlobalFailures(Instant from, Instant to);
-
+    CheckHistory create(CheckHistory record);
 
 
 }//CheckHistoryInterface
