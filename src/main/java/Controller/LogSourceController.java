@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/logsources", produces = MediaType.APPLICATION_JSON_VALUE
+@RequestMapping(path = "/api/logsources", produces = MediaType.APPLICATION_JSON_VALUE)
 public class LogSourceController {
 
     private final LogSourceInterface service;
