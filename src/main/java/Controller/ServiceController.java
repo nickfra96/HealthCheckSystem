@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/services")
@@ -84,6 +85,17 @@ public class ServiceController {
         // HTTP 204
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}/dependencies")
+    public Set<Service> dependencies(@PathVariable String id) {
+        return serviceServiceImp.getDependencies(id);
+    }//dependencies
+
+    @PostMapping("/{id}/dependencies/{depId}")
+    public ResponseEntity<Void> addDependency(@PathVariable String id, @PathVariable String depId) {
+        serviceServiceImp.addDependency(id, depId);
+        return ResponseEntity.noContent().build();
+    }//addDependency
 
 
 }//ServiceController

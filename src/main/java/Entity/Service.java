@@ -4,7 +4,9 @@ package Entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "service")
@@ -43,6 +45,20 @@ public class Service {
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contatti> contatti;
+
+
+    // I servizi da cui questo service dipende
+    @ManyToMany
+    @JoinTable(
+            name = "service_dependency",
+            joinColumns = @JoinColumn(name = "service_id"),
+            inverseJoinColumns = @JoinColumn(name = "depends_on_service_id")
+    )
+    private Set<Service> dependencies = new HashSet<>();
+
+    // I servizi che dipendono da questo service
+    @ManyToMany(mappedBy = "dependencies")
+    private Set<Service> dependents = new HashSet<>();
 
 
 }//Entity

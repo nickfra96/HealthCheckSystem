@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
@@ -75,4 +76,41 @@ public class ServiceServiceImp implements ServiceServiceInterface{
     public List<Service> listAll() {
         return serviceRepository.findAll();
     }
+
+    @Override
+    @Transactional
+    public void addDependency(String serviceId, String dependsOnId) {
+        Service service = serviceRepository.findById(serviceId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Service non trovato: " + serviceId));
+        Service dependency = serviceRepository.findById(dependsOnId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Service da cui dipende non trovato: " + dependsOnId));
+
+        service.getDependencies().add(dependency);
+        serviceRepository.save(service);
+    }//addDependency
+
+    @Override
+    public Set<Service> getDependencies(String serviceId) {
+        return serviceRepository.findById(serviceId)
+                .map(Service::getDependencies)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Service non trovato: " + serviceId));
+    }//getDependencies
+
+    @Override
+    public Set<Service> getDependents(String serviceId) {
+        return serviceRepository.findById(serviceId)
+                .map(Service::getDependents)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Service non trovato: " + serviceId));
+    }//getDependents
+
+
+
+
+
+
+
 }//ServiceServiceImp

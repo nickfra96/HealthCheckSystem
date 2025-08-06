@@ -4,6 +4,7 @@ import Entity.Endpoint;
 import Entity.Service;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ServiceServiceInterface {
 
@@ -13,5 +14,8 @@ public interface ServiceServiceInterface {
     Service update(String serviceId, Service service);
     void disable(String serviceId);
     List<Service> listAll();
+    void addDependency (String serviceId, String dependsOnId);
+    Set<Service> getDependencies(String serviceId);
+    Set<Service> getDependents(String serviceId);
 
 }//ServiceServiceInterface
