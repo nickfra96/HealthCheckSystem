@@ -51,8 +51,7 @@ public class CheckHistoryImp implements CheckHistoryInterface {
         return checkHistoryRepository.findTopByEndpointIdOrderByTimestampDesc(endpointId)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        "Nessuna history trovata per endpoint: " + endpointId
-                ));
+                        "Nessuna history trovata per endpoint: " + endpointId));
     }
 
     @Override
@@ -71,8 +70,7 @@ public class CheckHistoryImp implements CheckHistoryInterface {
         //Validazione: serve l'ID dell'endpoint
         if (record.getEndpoint() == null || record.getEndpoint().getId() == null) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Devi fornire l'id dell'Endpoint");
+                    HttpStatus.BAD_REQUEST, "Devi fornire l'id dell'Endpoint");
         }//if
 
         //Carico l'Endpoint

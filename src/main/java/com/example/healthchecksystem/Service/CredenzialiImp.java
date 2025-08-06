@@ -33,24 +33,18 @@ public class CredenzialiImp implements CredenzialiInterface {
         // Verifica esistenza dell'Autenticazione
         autenticazioneRepository.findById(authId)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Autenticazione non trovata: " + authId
-                ));
+                        HttpStatus.NOT_FOUND, "Autenticazione non trovata: " + authId));
 
 
         return credenzialiRepository.findAll().stream()
                 .filter(c -> c.getAutenticazione() != null
-                        && authId.equals(c.getAutenticazione().getId()))
-                .collect(Collectors.toList());
+                        && authId.equals(c.getAutenticazione().getId())).collect(Collectors.toList());
     }//listByAuth
 
     @Override
     public Credenziali getById(Integer id) {
         return credenzialiRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Credenziali non trovate: " + id
-                ));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Credenziali non trovate: " + id));
     }//getById
 
     @Override
@@ -59,17 +53,12 @@ public class CredenzialiImp implements CredenzialiInterface {
         // Controllo che esissta autenticazione
         if (cred.getAutenticazione() == null
                 || cred.getAutenticazione().getId() == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Devi fornire l'id dell'Autenticazione"
-            );
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Devi fornire l'id dell'Autenticazione");
         }
         Integer authId = cred.getAutenticazione().getId();
         Autenticazione parent = autenticazioneRepository.findById(authId)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Autenticazione non trovata con id: " + authId
-                ));
+                        HttpStatus.NOT_FOUND, "Autenticazione non trovata con id: " + authId));
 
         cred.setAutenticazione(parent);
         return credenzialiRepository.save(cred);
@@ -80,9 +69,7 @@ public class CredenzialiImp implements CredenzialiInterface {
     public Credenziali update(Integer id, Credenziali cred) {
         Credenziali existing = credenzialiRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Credenziali non trovate: " + id
-                ));
+                        HttpStatus.NOT_FOUND, "Credenziali non trovate: " + id));
 
         existing.setUsername(cred.getUsername());
         existing.setPassword(cred.getPassword());
@@ -97,9 +84,7 @@ public class CredenzialiImp implements CredenzialiInterface {
 
         if (!credenzialiRepository.existsById(id)) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Credenziali non trovate: " + id
-            );
+                    HttpStatus.NOT_FOUND, "Credenziali non trovate: " + id);
         }
         credenzialiRepository.deleteById(id);
 

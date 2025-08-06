@@ -30,10 +30,8 @@ public class EndpointImp implements EndpointInterface {
     public List<Endpoint> listByService(String serviceId) {
         // Verifico che esista il Service
         serviceRepo.findById(serviceId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Service non trovato: " + serviceId
-                ));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Service non trovato: " + serviceId));
         // Restituisco tutti gli endpoint per quel serviceId
         return endpointRepo.findByServiceId(serviceId);
     }//listByService
@@ -41,30 +39,23 @@ public class EndpointImp implements EndpointInterface {
     @Override
     public Endpoint getById(Integer id) {
         return endpointRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Endpoint non trovato: " + id
-                ));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Endpoint non trovato: " + id));
     }//getById
 
     @Override
     @Transactional
     public Endpoint create(Endpoint endpoint) {
 
-
         if (endpoint.getService() == null
                 || endpoint.getService().getId() == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Devi fornire l'id del Service"
-            );
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Devi fornire l'id del Service");
         }
         String svcId = endpoint.getService().getId();
         var parent = serviceRepo.findById(svcId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Service non trovato con id: " + svcId
-                ));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Service non trovato con id: " + svcId));
         endpoint.setService(parent);
         return endpointRepo.save(endpoint);
 
@@ -74,10 +65,7 @@ public class EndpointImp implements EndpointInterface {
     @Transactional
     public Endpoint update(Integer id, Endpoint endpoint) {
         Endpoint existing = endpointRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Endpoint non trovato: " + id
-                ));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Endpoint non trovato: " + id));
         // Aggiorno i campi
         existing.setType(endpoint.getType());
         existing.setUrl(endpoint.getUrl());
@@ -95,10 +83,7 @@ public class EndpointImp implements EndpointInterface {
     public void delete(Integer id) {
 
         if (!endpointRepo.existsById(id)) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Endpoint non trovato: " + id
-            );
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Endpoint non trovato: " + id);
         }//if
         endpointRepo.deleteById(id);
     }//delete

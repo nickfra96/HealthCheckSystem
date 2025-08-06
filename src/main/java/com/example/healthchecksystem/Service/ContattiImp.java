@@ -41,10 +41,8 @@ public class ContattiImp implements ContattiInterface {
     @Override
     public Contatti getById(String id) {
         return contattiRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Contatto non trovato: " + id
-                ));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Contatto non trovato: " + id));
     }//getById
 
     @Override
@@ -53,17 +51,12 @@ public class ContattiImp implements ContattiInterface {
 
         if (contatto.getService() == null
                 || contatto.getService().getId() == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Service non trovato: "
-            );
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Service non trovato: ");
         }
         String svcId = contatto.getService().getId();
         Service parent = serviceRepo.findById(svcId)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Service non trovato con id: " + svcId
-                ));
+                        HttpStatus.NOT_FOUND, "Service non trovato con id: " + svcId));
         contatto.setService(parent);
         return contattiRepo.save(contatto);
     }//create
@@ -74,9 +67,7 @@ public class ContattiImp implements ContattiInterface {
 
         Contatti existing = contattiRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Contatto non trovato: " + id
-                ));
+                        HttpStatus.NOT_FOUND, "Contatto non trovato: " + id));
 
         existing.setEmail(contatto.getEmail());
         existing.setLivello(contatto.getLivello());
@@ -91,9 +82,7 @@ public class ContattiImp implements ContattiInterface {
 
         if (!contattiRepo.existsById(id)) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Contatto non trovato: " + id
-            );
+                    HttpStatus.NOT_FOUND, "Contatto non trovato: " + id);
         }
         contattiRepo.deleteById(id);
 

@@ -41,10 +41,7 @@ public class LogSourcePathImp implements LogSourcePathInterface {
     public LogSourcePath getById(Integer id) {
         return logSourcePathRepository
                 .findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "LogSourcePath non trovato: " + id
-                ));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "LogSourcePath non trovato: " + id));
     }
 
     @Override
@@ -52,19 +49,14 @@ public class LogSourcePathImp implements LogSourcePathInterface {
     public LogSourcePath create(LogSourcePath path) {
 
         if (path.getLogSource() == null || path.getLogSource().getId() == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Devi fornire l'id del LogSource"
-            );
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Devi fornire l'id del LogSource");
         }
 
 
         Integer logSourceId = path.getLogSource().getId();
         LogSource parent = logSourceRepository.findById(logSourceId)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "LogSource non trovato con id: " + logSourceId
-                ));
+                        HttpStatus.NOT_FOUND, "LogSource non trovato con id: " + logSourceId));
 
 
         path.setLogSource(parent);
@@ -78,9 +70,7 @@ public class LogSourcePathImp implements LogSourcePathInterface {
 
         LogSourcePath existing = logSourcePathRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "LogSourcePath non trovato: " + id
-                ));
+                        HttpStatus.NOT_FOUND, "LogSourcePath non trovato: " + id));
 
         existing.setPath(path.getPath());
         return logSourcePathRepository.save(existing);
@@ -93,9 +83,7 @@ public class LogSourcePathImp implements LogSourcePathInterface {
         // Verifico che esista il record
         if (!logSourcePathRepository.existsById(id)) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "LogSourcePath non trovato: " + id
-            );
+                    HttpStatus.NOT_FOUND, "LogSourcePath non trovato: " + id);
         }
         // Rimuovo definitivamente
         logSourcePathRepository.deleteById(id);

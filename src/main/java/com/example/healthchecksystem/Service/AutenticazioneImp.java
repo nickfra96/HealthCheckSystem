@@ -36,9 +36,7 @@ public class AutenticazioneImp implements AutenticazioneInterface {
     public Autenticazione getById(Integer id) {
         return authRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Autenticazione non trovata: " + id
-                ));
+                        HttpStatus.NOT_FOUND, "Autenticazione non trovata: " + id));
     }//getById
 
     @Override
@@ -46,8 +44,7 @@ public class AutenticazioneImp implements AutenticazioneInterface {
         return authRepo.findByEndpointId(endpointId)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        "Autenticazione non trovata per endpoint: " + endpointId
-                ));
+                        "Autenticazione non trovata per endpoint: " + endpointId));
     }//getByEndpoint
 
     @Override
@@ -55,16 +52,12 @@ public class AutenticazioneImp implements AutenticazioneInterface {
     public Autenticazione create(Autenticazione auth) {
         if (auth.getEndpoint() == null || auth.getEndpoint().getId() == null) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Devi fornire l'id dell'Endpoint"
-            );
+                    HttpStatus.BAD_REQUEST, "Devi fornire l'id dell'Endpoint");
         }
         Integer epId = auth.getEndpoint().getId();
         Endpoint ep = endpointRepo.findById(epId)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Endpoint non trovato con id: " + epId
-                ));
+                        HttpStatus.NOT_FOUND, "Endpoint non trovato con id: " + epId));
         auth.setEndpoint(ep);
         return authRepo.save(auth);
     }//create
@@ -74,9 +67,7 @@ public class AutenticazioneImp implements AutenticazioneInterface {
     public Autenticazione update(Integer id, Autenticazione auth) {
         Autenticazione existing = authRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Autenticazione non trovata: " + id
-                ));
+                        HttpStatus.NOT_FOUND, "Autenticazione non trovata: " + id));
         existing.setTipoAuth(auth.getTipoAuth());
         existing.setUserId(auth.getUserId());
         existing.setStatus(auth.getStatus());
@@ -90,9 +81,7 @@ public class AutenticazioneImp implements AutenticazioneInterface {
 
         if (!authRepo.existsById(id)) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Autenticazione non trovata: " + id
-            );
+                    HttpStatus.NOT_FOUND, "Autenticazione non trovata: " + id);
         }
         authRepo.deleteById(id);
     }//delete

@@ -29,9 +29,7 @@ public class LogSourceImp implements LogSourceInterface {
         // Verifica esistenza del Service
         serviceRepository.findById(serviceId)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Service non trovato: " + serviceId
-                ));
+                        HttpStatus.NOT_FOUND, "Service non trovato: " + serviceId));
         // Recupera tutti i LogSource per quel serviceId
         return logSourceRepository.findByServiceId(serviceId);
     }//listByService
@@ -40,9 +38,7 @@ public class LogSourceImp implements LogSourceInterface {
     public LogSource getById(Integer id) {
         return logSourceRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "LogSource non trovato: " + id
-                ));
+                        HttpStatus.NOT_FOUND, "LogSource non trovato: " + id));
     }//getById
 
     @Override
@@ -51,17 +47,13 @@ public class LogSourceImp implements LogSourceInterface {
         // Verifico che esista
         if (logSource.getService() == null || logSource.getService().getId() == null) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Devi fornire l'id del Service"
-            );
+                    HttpStatus.BAD_REQUEST, "Devi fornire l'id del Service");
         }
         String svcId = logSource.getService().getId();
 
         var parent = serviceRepository.findById(svcId)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Service non trovato con id: " + svcId
-                ));
+                        HttpStatus.NOT_FOUND, "Service non trovato con id: " + svcId));
         //salvo
         logSource.setService(parent);
         return logSourceRepository.save(logSource);
@@ -72,9 +64,7 @@ public class LogSourceImp implements LogSourceInterface {
     public LogSource update(Integer id, LogSource logSource) {
         LogSource existing = logSourceRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "LogSource non trovato: " + id
-                ));
+                        HttpStatus.NOT_FOUND, "LogSource non trovato: " + id));
         // Aggiorno i campi
         existing.setChannel(logSource.getChannel());
         existing.setAuth_required(logSource.isAuth_required());
@@ -91,9 +81,7 @@ public class LogSourceImp implements LogSourceInterface {
 
         if (!logSourceRepository.existsById(id)) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "LogSource non trovato: " + id
-            );
+                    HttpStatus.NOT_FOUND, "LogSource non trovato: " + id);
         }
         logSourceRepository.deleteById(id);
 
