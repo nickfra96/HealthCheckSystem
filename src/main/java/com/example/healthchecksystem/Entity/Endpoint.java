@@ -2,6 +2,8 @@ package com.example.healthchecksystem.Entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 
@@ -29,7 +31,8 @@ public class Endpoint {
     @Column(name = "method",nullable = false, length = 8)
     private String method;
 
-    @Column(name = "expected_status", columnDefinition = "JSONB")
+    @Column(name = "expected_status")
+    @JdbcTypeCode(SqlTypes.JSON)
     private String expected_status;
 
     @Column(name = "expected_content_status", length = 64)

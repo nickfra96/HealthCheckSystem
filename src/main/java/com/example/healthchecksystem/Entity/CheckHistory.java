@@ -4,6 +4,8 @@ package com.example.healthchecksystem.Entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
 
@@ -29,7 +31,8 @@ public class CheckHistory {
     @Column(name = "success")
     private boolean success;
 
-    @Column(name = "details", columnDefinition = "json")
+    @Column(name = "details")
+    @JdbcTypeCode(SqlTypes.JSON)
     private String details;
 
     @Column(name = "threshold_violated")
