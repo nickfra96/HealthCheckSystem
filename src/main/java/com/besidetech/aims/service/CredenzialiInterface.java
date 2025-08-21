@@ -1,0 +1,16 @@
+package com.besidetech.aims.service;
+
+import com.besidetech.aims.entity.Credenziali;
+
+import java.util.List;
+
+public interface CredenzialiInterface {
+
+    List<Credenziali> listByAuth(Integer authId);
+    Credenziali getById(Integer id);
+    Credenziali create(Credenziali cred);
+    Credenziali update(Integer id, Credenziali cred);
+    void delete(Integer id);
+    List<Credenziali> listAll();
+
+}//CredenzialiInterface
